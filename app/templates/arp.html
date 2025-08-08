@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>ARP Table</h2>
+  {% if entries and entries|length > 0 %}
+    <ul>
+      {% for e in entries %}
+        <li>{{ e.ip }} — {{ e.mac }} — {{ e.state }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No ARP entries found or command not available.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>Subnet Calculator</h2>
+  <form method="post">
+    <label for="cidr">CIDR</label>
+    <input id="cidr" name="cidr" placeholder="192.168.1.0/24" required />
+    <button type="submit">Calculate</button>
+  </form>
+  {% if result %}
+    <h3>Results</h3>
+    <ul>
+      <li>Network: {{ result.network }}</li>
+      <li>Broadcast: {{ result.broadcast }}</li>
+      <li>Netmask: {{ result.netmask }}</li>
+      <li>Hostmask: {{ result.hostmask }}</li>
+      <li>Number of hosts (approx): {{ result.num_hosts }}</li>
+    </ul>
+    <details>
+      <summary>First 256 hosts</summary>
+      <pre>{{ result.hosts }}</pre>
+    </details>
+  {% endif %}
+  {% if error %}
+    <pre>{{ error }}</pre>
+  {% endif %}
+</div>
+{% endblock %}

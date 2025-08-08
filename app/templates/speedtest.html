@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>Speedtest</h2>
+  <form method="post">
+    <p>This uses speedtest.net servers via speedtest-cli. It may take up to a minute and uses bandwidth.</p>
+    <button type="submit">Run Speedtest</button>
+  </form>
+  {% if result %}
+    <h3>Results</h3>
+    <ul>
+      <li>Download: <strong style="color:#60a5fa">{{ result.download_mbps }} Mbps</strong></li>
+      <li>Upload: <strong style="color:#a78bfa">{{ result.upload_mbps }} Mbps</strong></li>
+      <li>Ping: <strong>{{ result.ping_ms }} ms</strong></li>
+      <li>Server: {{ result.server.sponsor }} — {{ result.server.name }} ({{ result.server.country }})</li>
+    </ul>
+  {% else %}
+    <p style="color:#9aa8bb">Click Run to start a test. A spinner will show while the test runs.</p>
+  {% endif %}
+  {% if error %}
+    <pre>{{ error }}</pre>
+  {% endif %}
+</div>
+{% endblock %}

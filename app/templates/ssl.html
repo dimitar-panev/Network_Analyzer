@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>SSL/TLS Info</h2>
+  <form method="post">
+    <label for="host">Host</label>
+    <input id="host" name="host" placeholder="example.com" required />
+    <label for="port">Port</label>
+    <input id="port" name="port" type="number" value="443" />
+    <button type="submit">Get Info</button>
+  </form>
+  {% if info %}
+    <h3>Certificate</h3>
+    <pre>{{ info }}</pre>
+  {% endif %}
+  {% if error %}
+    <pre>{{ error }}</pre>
+  {% endif %}
+</div>
+{% endblock %}

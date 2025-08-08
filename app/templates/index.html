@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>Tools</h2>
+  <div class="grid">
+    {% for tool in tools %}
+      <div class="tool">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:.5rem">
+          <strong>{{ tool.name }}</strong>
+          <a href="/{{ tool.path }}"><button>Open</button></a>
+        </div>
+        <div style="color:#9aa8bb;margin-top:.45rem;font-size:.92rem">Quick access</div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

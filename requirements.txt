@@ -1,0 +1,8 @@
+Flask==3.0.3
+Jinja2>=3.1.4
+Werkzeug>=3.0.3
+requests==2.32.3
+dnspython==2.6.1
+psutil==6.0.0
+python-whois==0.9.4
+speedtest-cli==2.1.3

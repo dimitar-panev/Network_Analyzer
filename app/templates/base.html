@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Network Analyzer</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+  <style>
+    .glow { background: linear-gradient(90deg, #0ea5e950, transparent 30%, transparent 70%, #a78bfa50), linear-gradient(180deg, transparent, transparent); }
+  </style>
+</head>
+<body class="glow">
+  <header>
+    <h1>Network Analyzer</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/interfaces">Interfaces</a>
+      <a href="/arp">ARP</a>
+    </nav>
+  </header>
+  <div class="container">
+    {% block content %}{% endblock %}
+  </div>
+  <footer>
+    <small>&copy; {{ 2025 }} - Minimal toolkit for net engineers</small>
+  </footer>
+  <script>
+    // Add a spinner to submit buttons while forms post
+    document.addEventListener('submit', function (e) {
+      const btn = e.target.querySelector('button[type="submit"]');
+      if (btn && !btn.dataset.loading) {
+        btn.dataset.loading = '1';
+        const s = document.createElement('span');
+        s.className = 'spinner';
+        btn.appendChild(s);
+        btn.disabled = true;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>WHOIS</h2>
+  <form method="post">
+    <label for="query">Domain or IP</label>
+    <input id="query" name="query" placeholder="example.com" required />
+    <button type="submit">Lookup</button>
+  </form>
+  {% if info %}
+    <h3>Info</h3>
+    <pre>{{ info }}</pre>
+  {% endif %}
+  {% if error %}
+    <pre>{{ error }}</pre>
+  {% endif %}
+</div>
+{% endblock %}

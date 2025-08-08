@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>Traceroute</h2>
+  <form method="post">
+    <label for="host">Host</label>
+    <input id="host" name="host" placeholder="1.1.1.1 or example.com" required />
+    <button type="submit">Run</button>
+  </form>
+  {% if result %}
+    <h3>Result</h3>
+    <pre>{{ result }}</pre>
+  {% endif %}
+</div>
+{% endblock %}

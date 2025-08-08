@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>Ping</h2>
+  <form id="pingForm" onsubmit="startPing(event)">
+    <label for="host">Host</label>
+    <input id="host" name="host" placeholder="8.8.8.8 or example.com" required />
+    <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin:.4rem 0 .6rem">
+      <div>
+        <label for="count">Count</label>
+        <input id="count" name="count" type="number" value="4" min="1" max="200" />
+      </div>
+      <div>
+        <label for="interval">Interval (s)</label>
+        <input id="interval" name="interval" type="number" step="0.1" value="1" />
+      </div>
+      <div style="align-self:flex-end">
+        <label><input type="checkbox" id="continuous" /> Continuous</label>
+      </div>
+    </div>
+    <button type="submit">Start</button>
+    <button type="button" class="button-secondary" onclick="stopPing()">Stop</button>
+  </form>
+  <h3>Output</h3>
+  <pre id="pingOutput" style="min-height:180px"></pre>
+</div>
+<script>
+let evtSource;
+function startPing(e){
+  e.preventDefault();
+  const host = document.getElementById('host').value.trim();
+  const count = document.getElementById('count').value.trim();
+  const cont = document.getElementById('continuous').checked ? '1' : '0';
+  const interval = document.getElementById('interval').value.trim();
+  if(!host) return;
+  stopPing();
+  const params = new URLSearchParams({host, interval});
+  if(cont === '1'){ params.set('continuous', '1'); } else if(count){ params.set('count', count); }
+  evtSource = new EventSource('/stream/ping?' + params.toString());
+  const out = document.getElementById('pingOutput');
+  out.textContent = '';
+  evtSource.onmessage = (ev)=>{
+    out.textContent += ev.data + '\n';
+    out.scrollTop = out.scrollHeight;
+  };
+  evtSource.addEventListener('done', ()=>{ stopPing(); });
+  evtSource.onerror = ()=>{ stopPing(); };
+}
+function stopPing(){
+  if(evtSource){ evtSource.close(); evtSource = null; }
+}
+</script>
+{% endblock %}

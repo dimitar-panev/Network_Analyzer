@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>DNS Lookup</h2>
+  <form method="post">
+    <label for="name">Name</label>
+    <input id="name" name="name" placeholder="example.com" required />
+    <label for="record">Record</label>
+    <select id="record" name="record">
+      <option>A</option>
+      <option>AAAA</option>
+      <option>MX</option>
+      <option>NS</option>
+      <option>CNAME</option>
+      <option>TXT</option>
+    </select>
+    <button type="submit">Resolve</button>
+  </form>
+  {% if answer %}
+    <h3>Answers</h3>
+    <ul>
+      {% for a in answer %}
+        <li>{{ a }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  {% if error %}
+    <pre>{{ error }}</pre>
+  {% endif %}
+</div>
+{% endblock %}

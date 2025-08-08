@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>HTTP Tester</h2>
+  <form method="post">
+    <label for="url">URL</label>
+    <input id="url" name="url" placeholder="https://example.com" required />
+    <label for="method">Method</label>
+    <select id="method" name="method">
+      <option>GET</option>
+      <option>POST</option>
+      <option>PUT</option>
+      <option>DELETE</option>
+      <option>HEAD</option>
+      <option>OPTIONS</option>
+      <option>PATCH</option>
+    </select>
+    <label for="headers">Headers (one per line: Key: Value)</label>
+    <textarea id="headers" name="headers" rows="5"></textarea>
+    <label for="body">Body</label>
+    <textarea id="body" name="body" rows="8"></textarea>
+    <button type="submit">Send</button>
+  </form>
+  {% if resp %}
+    <h3>Response</h3>
+    <p>Status: {{ resp.status_code }}</p>
+    <details open>
+      <summary>Headers</summary>
+      <pre>{{ resp.headers }}</pre>
+    </details>
+    <details>
+      <summary>Body</summary>
+      <pre>{{ resp.text }}</pre>
+    </details>
+  {% endif %}
+  {% if error %}
+    <pre>{{ error }}</pre>
+  {% endif %}
+</div>
+{% endblock %}

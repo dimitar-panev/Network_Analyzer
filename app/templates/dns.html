@@ -3,8 +3,8 @@
 <div class="card">
   <h2>DNS Lookup</h2>
   <form method="post">
-    <label for="name">Name</label>
-    <input id="name" name="name" placeholder="example.com" required />
+    <label for="name">Name or IP</label>
+    <input id="name" name="name" placeholder="example.com or 8.8.8.8" required />
     <label for="record">Record</label>
     <select id="record" name="record">
       <option>A</option>
@@ -13,7 +13,9 @@
       <option>NS</option>
       <option>CNAME</option>
       <option>TXT</option>
+      <option>PTR</option>
     </select>
+    <label><input type="checkbox" name="reverse" value="1"> Reverse (PTR)</label>
     <button type="submit">Resolve</button>
   </form>
   {% if answer %}

@@ -4,7 +4,7 @@
   <h2>Subnet Calculator</h2>
   <form method="post">
     <label for="cidr">CIDR</label>
-    <input id="cidr" name="cidr" placeholder="192.168.1.0/24" required />
+    <input id="cidr" name="cidr" placeholder="192.168.1.0/24 or 2001:db8::/64" required />
     <button type="submit">Calculate</button>
   </form>
   {% if result %}
@@ -14,7 +14,7 @@
       <li>Broadcast: {{ result.broadcast }}</li>
       <li>Netmask: {{ result.netmask }}</li>
       <li>Hostmask: {{ result.hostmask }}</li>
-      <li>Number of hosts (approx): {{ result.num_hosts }}</li>
+      <li>Total hosts: {{ result.num_hosts }}</li>
     </ul>
     <details>
       <summary>First 256 hosts</summary>

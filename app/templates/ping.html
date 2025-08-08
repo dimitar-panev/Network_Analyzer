@@ -23,9 +23,22 @@
   </form>
   <h3>Output</h3>
   <pre id="pingOutput" style="min-height:180px"></pre>
+  <canvas id="pingChart" height="120"></canvas>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 <script>
 let evtSource;
+let chart;
+function ensureChart(){
+  if(chart) return chart;
+  const ctx = document.getElementById('pingChart');
+  chart = new Chart(ctx, {
+    type: 'line',
+    data: { labels: [], datasets: [{ label: 'RTT (ms)', data: [], tension: .25, borderColor: '#38bdf8' }] },
+    options: { animation:false, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true } } }
+  });
+  return chart;
+}
 function startPing(e){
   e.preventDefault();
   const host = document.getElementById('host').value.trim();
@@ -39,15 +52,24 @@ function startPing(e){
   evtSource = new EventSource('/stream/ping?' + params.toString());
   const out = document.getElementById('pingOutput');
   out.textContent = '';
+  const c = ensureChart();
+  c.data.labels = []; c.data.datasets[0].data = []; c.update();
+  const rttRe = /time=([0-9.]+)\s*ms/;
   evtSource.onmessage = (ev)=>{
     out.textContent += ev.data + '\n';
     out.scrollTop = out.scrollHeight;
+    const m = rttRe.exec(ev.data);
+    if(m){
+      const v = parseFloat(m[1]);
+      c.data.labels.push('');
+      c.data.datasets[0].data.push(v);
+      if(c.data.labels.length > 100){ c.data.labels.shift(); c.data.datasets[0].data.shift(); }
+      c.update();
+    }
   };
   evtSource.addEventListener('done', ()=>{ stopPing(); });
   evtSource.onerror = ()=>{ stopPing(); };
 }
-function stopPing(){
-  if(evtSource){ evtSource.close(); evtSource = null; }
-}
+function stopPing(){ if(evtSource){ evtSource.close(); evtSource = null; } }
 </script>
 {% endblock %}

@@ -14,11 +14,25 @@
       <li>Ping: <strong>{{ result.ping_ms }} ms</strong></li>
       <li>Server: {{ result.server.sponsor }} — {{ result.server.name }} ({{ result.server.country }})</li>
     </ul>
-  {% else %}
-    <p style="color:#9aa8bb">Click Run to start a test. A spinner will show while the test runs.</p>
+    <canvas id="speedChart" data-dl="{{ result.download_mbps }}" data-ul="{{ result.upload_mbps }}" height="120"></canvas>
   {% endif %}
   {% if error %}
     <pre>{{ error }}</pre>
   {% endif %}
 </div>
+{% if result %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script>
+(function(){
+  const cvs = document.getElementById('speedChart');
+  const dl = parseFloat(cvs.dataset.dl || '0');
+  const ul = parseFloat(cvs.dataset.ul || '0');
+  new Chart(cvs, {
+    type: 'bar',
+    data: { labels: ['Download','Upload'], datasets: [{ label: 'Mbps', data: [dl, ul], backgroundColor: ['#60a5fa','#a78bfa'] }] },
+    options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero:true } } }
+  });
+})();
+</script>
+{% endif %}
 {% endblock %}

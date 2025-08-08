@@ -2,14 +2,29 @@
 {% block content %}
 <div class="card">
   <h2>Traceroute</h2>
-  <form method="post">
+  <form id="trForm" onsubmit="startTrace(event)">
     <label for="host">Host</label>
     <input id="host" name="host" placeholder="1.1.1.1 or example.com" required />
-    <button type="submit">Run</button>
+    <button type="submit">Start</button>
+    <button type="button" class="button-secondary" onclick="stopTrace()">Stop</button>
   </form>
-  {% if result %}
-    <h3>Result</h3>
-    <pre>{{ result }}</pre>
-  {% endif %}
+  <h3>Output</h3>
+  <pre id="traceOut" style="min-height:180px"></pre>
 </div>
+<script>
+let traceES;
+function startTrace(e){
+  e.preventDefault();
+  const host = document.getElementById('host').value.trim();
+  if(!host) return;
+  stopTrace();
+  traceES = new EventSource('/stream/traceroute?host=' + encodeURIComponent(host));
+  const out = document.getElementById('traceOut');
+  out.textContent = '';
+  traceES.onmessage = (ev)=>{ out.textContent += ev.data + '\n'; out.scrollTop = out.scrollHeight; };
+  traceES.addEventListener('done', ()=> stopTrace());
+  traceES.onerror = ()=> stopTrace();
+}
+function stopTrace(){ if(traceES){ traceES.close(); traceES = null; } }
+</script>
 {% endblock %}

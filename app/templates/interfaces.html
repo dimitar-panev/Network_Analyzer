@@ -2,18 +2,22 @@
 {% block content %}
 <div class="card">
   <h2>Interfaces</h2>
-  <ul>
-    {% for name, d in data.items() %}
-      <li>
-        <strong>{{ name }}</strong>
-        <div>Up: {{ d.isup }} | Speed: {{ d.speed }} | MTU: {{ d.mtu }}</div>
-        <ul>
-          {% for a in d.addrs %}
-            <li>{{ a }}</li>
-          {% endfor %}
-        </ul>
-      </li>
-    {% endfor %}
-  </ul>
+  {% if data.error %}
+    <pre>{{ data.error }}</pre>
+  {% else %}
+    <ul>
+      {% for name, d in data.items() %}
+        <li>
+          <strong>{{ name }}</strong>
+          <div>Up: {{ d.isup }} | Speed: {{ d.speed }} | MTU: {{ d.mtu }}</div>
+          <ul>
+            {% for a in d.addrs %}
+              <li>{{ a }}</li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
 </div>
 {% endblock %}

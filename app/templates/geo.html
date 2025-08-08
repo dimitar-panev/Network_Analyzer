@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>GeoIP</h2>
+  <form method="post">
+    <label for="query">IP or Host</label>
+    <input id="query" name="query" placeholder="1.1.1.1 or example.com" required />
+    <button type="submit">Lookup</button>
+  </form>
+  {% if data %}
+    <h3>Result</h3>
+    <ul>
+      <li>{{ data.continent }}, {{ data.country }}</li>
+      <li>{{ data.city }} ({{ data.regionName }})</li>
+      <li>ISP: {{ data.isp }} — {{ data.org }}</li>
+      <li>ASN: {{ data.as }} — {{ data.asname }}</li>
+      <li>Location: {{ data.lat }}, {{ data.lon }}</li>
+      <li>Timezone: {{ data.timezone }}</li>
+    </ul>
+  {% endif %}
+  {% if error %}
+    <pre>{{ error }}</pre>
+  {% endif %}
+</div>
+{% endblock %}

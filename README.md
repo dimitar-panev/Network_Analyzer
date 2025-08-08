@@ -53,3 +53,4 @@ Open http://localhost:5000 in your browser. If 5000 is taken, the app now auto-s
   kill -9 <PID>
   ```
 - Or simply use a different port: `PORT=5050 python run.py`.
+- For the moments the application is not hosted properly since it hosts itself through run.py. Until I host the application somewhere else, I will be working this way. That means that if you want to test the application you will have to download the whole repo.
